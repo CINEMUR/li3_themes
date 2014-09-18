@@ -12,11 +12,11 @@ Dispatcher::applyFilter('_callable', function ($self, $params, $chain) {
     Media::type('default', null, array(
         'view' => 'li3_themes\template\View',
         'paths' => array(
-            'layout' => '{:library}/themes/{:theme}/views/layouts/{:layout}.{:type}.php',
-            'template' => '{:library}/themes/{:theme}/views/{:controller}/{:template}.{:type}.php',
-            'element' => '{:library}/themes/{:theme}/views/views/elements/{:template}.{:type}.php'
+            'layout' => '{:library}/webroot/themes/{:theme}/views/layouts/{:layout}.{:type}.php',
+            'template' => '{:library}/webroot/themes/{:theme}/views/{:controller}/{:template}.{:type}.php',
+            'element' => '{:library}/webroot/themes/{:theme}/views/views/elements/{:template}.{:type}.php'
         ),
-        'webroot' => '{:library}/themes/{:theme}'
+        'webroot' => '{:library}/webroot/themes/{:theme}'
     ));
 
     return $next;
