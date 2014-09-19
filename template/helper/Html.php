@@ -5,11 +5,11 @@ namespace li3_themes\template\helper;
 
 class Html extends \lithium\template\helper\Html {
 
-    protected $_theme;
+    protected $_theme = 'default';
 
     public function _init() {
         parent::_init();
-        $this->_theme = $this->_context->_config['theme'];
+        $this->_theme = isset($this->_context->_config['theme']) ? $this->_context->_config['theme'] : $this->_theme;
     }
 
     /**
@@ -22,8 +22,7 @@ class Html extends \lithium\template\helper\Html {
      * @param array $options
      * @return mixed|null|string
      */
-    public function style($path, array $options = array())
-    {
+    public function style($path, array $options = array()) {
         $defaults = array('type' => 'stylesheet', 'inline' => true);
         list($scope, $options) = $this->_options($defaults, $options);
 
@@ -33,20 +32,18 @@ class Html extends \lithium\template\helper\Html {
             }
             return ($scope['inline']) ? join("\n\t", $path) . "\n" : null;
         }
-        $path = '/themes/' . $this->_theme . $path;
         $method = __METHOD__;
         $type = $scope['type'];
         $params = compact('type', 'path', 'options');
         $filter = function ($self, $params, $chain) use ($defaults, $method) {
             $template = ($params['type'] === 'import') ? 'style-import' : 'style-link';
-            return $self->invokeMethod('_render', array($method, $template, $params));
+            return $self->invokeMethod('_render', array($method, $template, $params, array('theme' => $this->_theme)));
         };
         $style = $this->_filter($method, $params, $filter);
 
         if ($scope['inline']) {
             return $style;
         }
-
         if ($this->_context) {
             $this->_context->styles($style);
         }
@@ -73,13 +70,11 @@ class Html extends \lithium\template\helper\Html {
             }
             return ($scope['inline']) ? join("\n\t", $path) . "\n" : null;
         }
-        $path = '/themes/' . $this->_theme . $path;
-
         $m = __METHOD__;
         $params = compact('path', 'options');
 
         $script = $this->_filter(__METHOD__, $params, function ($self, $params, $chain) use ($m) {
-            return $self->invokeMethod('_render', array($m, 'script', $params));
+            return $self->invokeMethod('_render', array($m, 'script', $params, array('theme' => $this->_theme)));
         });
         if ($scope['inline']) {
             return $script;
@@ -88,5 +83,6 @@ class Html extends \lithium\template\helper\Html {
             $this->_context->scripts($script);
         }
     }
+
 
 } 
