@@ -15,3 +15,5 @@ Libraries::paths(array('helper' => array_merge(array(
 ), (array)$existing)));
 
 require __DIR__ . '/bootstrap/media.php';
+
+require __DIR__ . '/bootstrap/errors.php';

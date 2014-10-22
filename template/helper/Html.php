@@ -35,9 +35,10 @@ class Html extends \lithium\template\helper\Html {
         $method = __METHOD__;
         $type = $scope['type'];
         $params = compact('type', 'path', 'options');
+        $params['theme'] = array('theme' => $this->_theme);
         $filter = function ($self, $params, $chain) use ($defaults, $method) {
             $template = ($params['type'] === 'import') ? 'style-import' : 'style-link';
-            return $self->invokeMethod('_render', array($method, $template, $params, array('theme' => $this->_theme)));
+            return $self->invokeMethod('_render', array($method, $template, $params, $params['theme']));
         };
         $style = $this->_filter($method, $params, $filter);
 
@@ -72,9 +73,11 @@ class Html extends \lithium\template\helper\Html {
         }
         $m = __METHOD__;
         $params = compact('path', 'options');
+        
+        $params['theme'] = array('theme' => $this->_theme);
 
         $script = $this->_filter(__METHOD__, $params, function ($self, $params, $chain) use ($m) {
-            return $self->invokeMethod('_render', array($m, 'script', $params, array('theme' => $this->_theme)));
+            return $self->invokeMethod('_render', array($m, 'script', $params, $params['theme']));
         });
         if ($scope['inline']) {
             return $script;
