@@ -16,6 +16,11 @@ Dispatcher::applyFilter('_callable', function ($self, $params, $chain) {
         'webroot' => '{:library}/webroot/themes/{:theme}'
     ));
 
+    Media::assets('img', array(
+        'paths' => array('{:base}/themes/{:theme}/img/{:path}' => array('base', 'theme', 'path')),
+        'theme' => 'default'
+    ));
+
     Media::assets('js', array(
         'paths' => array('{:base}/themes/{:theme}/js/{:path}' => array('base', 'theme', 'path')),
         'theme' => 'default'
